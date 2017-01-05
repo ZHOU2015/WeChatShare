@@ -1,0 +1,127 @@
+{template 'header-wapwelcom'}
+<style type="text/css">
+	.ttd{
+		border:solid #add9c0; border-width:0px 1px 1px 0px;
+		width: 50%;
+		padding: 1em;
+		font-family: Microsoft YaHei;
+		color: #DCDCDC;
+	}
+	.btn{
+		background: #fbae05;
+		text-align: center;
+		line-height: 2em;
+		width: 40%;
+		color: #fff;
+		float: left;
+		margin-left: 1.6em;
+	}
+</style>
+<!--头部2 结束-->
+<div class="wap_reg_m">
+	<div class="wap_m">
+		<div class="wap_login_success_box">
+			<div class="wap_login_success_box_form">
+				<p>尊敬的{$username}，欢迎您！</p>
+				<table style="border:solid #add9c0; border-width:1px 0px 0px 1px;margin: 0 auto;margin-top: 2em;width: 90%;text-align: center;">
+					<tr>
+						<td class="ttd">您已邀请好友个数:</td>
+						<td class="ttd">{$suminvite}</td>
+					</tr>
+					<tr>
+						<td class="ttd">积分总数:</td>
+						<td class="ttd">{$point}</td>
+					</tr>
+				</table>
+				<div style="padding:20px; overflow:auto;">
+					<ol>
+						<ul style="font-size: 1.6em;">温馨提示：</ul>
+						<li>用户的积分再兑换奖品后不能重复使用。</li>
+						<li>用户兑换的奖品数量有限，奖品兑换完时只能兑换其他有货奖品。</li>
+						<li>兑换的奖品包邮，不再收取额外费用。</li>
+						<li>收货地址必须真实有效，奖品发放后不能再更改收货地址。</li>
+						<li>本次活动奖品为正规渠道采购，收到货后如发现质量问题及时致电网站客服人员，网站协助用户进行奖品换货手续，其产生的费用用户需自行承担。</li>
+						<li>请及时修改您的密码，点击链接<a href="/member/wappassword.php" style="color: red;">修改密码</a>及时修改您的密码。</li>
+					</ol>
+				</div>
+				<button class="btn" onclick="applyapp()">奖品兑换</button>
+				<button class="btn" onclick="showorder()">我的兑换申请</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--底部2 开始-->
+<script src="/skin/default/js/jquery-1.7.1.min.js"> </script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+	var userid = {$userid};
+	function applyapp()
+	{
+		//申请兑换
+		window.location.href="/gift1";
+	}
+	function showorder()
+	{
+		window.location.href = "http://www.yibiaotang.com/gift1/index.php?action=my";
+		//我的订单
+	}
+	//单次定位20分钟有效 20分钟内
+	$(document).ready(function(){
+		// 默认获取用户地理位置和openid
+		wx.config({
+			debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+			appId:"wx6dab503cd0fd3141", // 必填，公众号的唯一标识
+			timestamp: "<?php echo $arr['timestamp'];?>", // 必填，生成签名的时间戳
+			nonceStr: "<?php echo $arr['noncestr'];?>", // 必填，生成签名的随机串
+			signature: "<?php echo $arr['signature'];?>",// 必填，签名，见附录1
+			jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+		});
+		wx.ready(function(){
+			wx.onMenuShareTimeline({
+				title: '分享好友注册仪表堂赢豪礼，iphone7等你来拿~', // 分享标题
+				link: "http://www.yibiaotang.com/member/wapregister.php?fromUserId={$userid}", // 分享链接
+				imgUrl: 'http://www.yibiaotang.com/skin/default/img/singlelogo.jpeg', // 分享图标
+				success: function () {
+					console.log("分享成功");
+					alert('分享成功');
+				},
+				cancel: function () {
+					console.log("分享已取消");
+					alert('分享已取消');
+				}
+			});
+			wx.onMenuShareAppMessage({
+				title: '分享好友注册仪表堂赢豪礼，iphone7等你来拿~', // 分享标题
+				desc: '包罗海量仪器设备的仪表堂开始分享好友注册赢豪礼活动啦，分享给更多好友注册，可获得意想不到的精美礼品，更有iphone7等你来拿，赶紧发动起身边的童靴们一起来注册吧~', // 分享描述
+				link: 'http://www.yibiaotang.com/member/wapregister.php?fromUserId={$userid}', // 分享链接
+				imgUrl: 'http://www.yibiaotang.com/skin/default/img/singlelogo.jpeg', // 分享图标
+				type: '', // 分享类型,music、video或link，不填默认为link
+				dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+				success: function () {
+					// 用户确认分享后执行的回调函数
+					alert("发送成功");
+				},
+				cancel: function () {
+					// 用户取消分享后执行的回调函数
+					alert("取消发送");
+				}
+			});
+			wx.onMenuShareQQ({
+				title: '分享好友注册仪表堂赢豪礼，iphone7等你来拿~', // 分享标题
+				desc: '包罗海量仪器设备的仪表堂开始分享好友注册赢豪礼活动啦，分享给更多好友注册，可获得意想不到的精美礼品，更有iphone7等你来拿，赶紧发动起身边的童靴们一起来注册吧~', // 分享描述
+				link: 'http://www.yibiaotang.com/member/wapregister.php?fromUserId={$userid}', // 分享链接
+				imgUrl: 'http://www.yibiaotang.com/skin/default/img/singlelogo.jpeg', // 分享图标
+				success: function () {
+					// 用户确认分享后执行的回调函数
+					alert("发送成功");
+				},
+				cancel: function () {
+					// 用户取消分享后执行的回调函数
+					alert("取消发送");
+				}
+			});
+		});
+	});
+</script>
+</body>
+</html>
