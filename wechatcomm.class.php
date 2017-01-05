@@ -188,7 +188,7 @@ class wechatcomm
     function getAccessToken()
     {
         //access_token 记得缓存
-        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=&secret=";
+        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=&secret=";//此处写入微信公众号的appid和secret
         $info = $this->execCurl('get', array($url));
         $list = json_decode($info, true);
         return $list['access_token'];
